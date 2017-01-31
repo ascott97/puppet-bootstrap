@@ -24,14 +24,14 @@ if [ ! -d /etc/puppetlabs/puppetserver/ssh/ ]; then
 	mkdir -p /etc/puppetlabs/puppetserver/ssh/
 fi
 
-cp id-control_repo.rsa /etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa
-chown pe-puppet.pe-puppet /etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa
+#cp id-control_repo.rsa /etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa
+#chown pe-puppet.pe-puppet /etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa
 
-# Add a license
+#Add a license
 #cp license.key /etc/puppetlabs/license.key
 #chown pe-puppet.pe-puppet /etc/puppetlabs/license.key
 
-# copy config in place
+#Copy config in place
 #cp autosign.conf /etc/puppetlabs/puppet/autosign.conf
 
 /opt/puppetlabs/bin/puppet agent -tv
@@ -47,4 +47,26 @@ export TOKEN=$(curl -k -X POST -H 'Content-Type: application/json' -d '{"login":
 #Create a user
 curl -k -i -H "X-Authentication:$TOKEN" -H "Content-Type: application/json" -X POST -d '{"login":"deployment-user","email":"placeholder@dwp.gsi.gov.uk","display_name":"deploy","role_ids": [4],"password": "$password"}' https://localhost:4433/rbac-api/v1/users
 
-curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "deployment-user", "password": "$password", "lifetime": "0"}' https://localhost:4433/rbac-api/v1/auth/token
+#Create puppet token dir
+if [ ! -d /root/.puppetlabs/ ]; then
+	mkdir /root/.puppetlabs
+fi
+
+#Create token for code manager
+curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "deployment-user", "password": "$password", "lifetime": "0"}' https://localhost:4433/rbac-api/v1/auth/token | awk -F \" '{print $4}' > /root/.puppetlabs/token
+
+
+#Completion message
+echo "
+
+---------------------------------------------------------
+The Puppet Master installation is complete.
+A user has been created and added to the deployment role.
+Username: deployment-user
+Password: $password
+
+Admin Details
+Username: admin
+Password: root
+---------------------------------------------------------"
+
