@@ -45,7 +45,7 @@ password=$(</dev/urandom tr -dc a-z-A-Z-0-9 | head -c 8 ;echo;)
 export TOKEN=$(curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "admin", "password": "root"}' https://localhost:4433/rbac-api/v1/auth/token | awk -F \" '{print $4}')
 
 #Create a user
-curl -k -i -H "X-Authentication:$TOKEN" -H "Content-Type: application/json" -X POST -d '{"login":"deployment-user","email":"placeholder@dwp.gsi.gov.uk","display_name":"deploy","role_ids": [4],"password": "$password"}' https://localhost:4433/rbac-api/v1/users
+curl -k -i -H "X-Authentication:$TOKEN" -H "Content-Type: application/json" -X POST -d '{"login":"deployment-user","email":"placeholder@email.com","display_name":"deploy","role_ids": [4],"password": "$password"}' https://localhost:4433/rbac-api/v1/users
 
 #Create puppet token dir
 if [ ! -d /root/.puppetlabs/ ]; then
