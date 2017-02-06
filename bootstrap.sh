@@ -3,7 +3,7 @@
 puppet_ver='2016.5.1'
 puppet_install="puppet-enterprise-${puppet_ver}-el-7-x86_64"
 repo_url="github.com\/ascott97\/control_repo.git" #escape / so sed likes it
-admin_pass=$(</dev/urandom tr -dc a-z-A-Z-0-9 | head -c 8)
+admin_pass=$(</dev/urandom tr -dc a-z-A-Z-0-9 | head -c 8 ;echo;)
 curl -O https://s3.amazonaws.com/pe-builds/released/${puppet_ver}/${puppet_install}.tar.gz
 
 tar -zxvf ${puppet_install}.tar.gz
