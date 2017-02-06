@@ -12,7 +12,7 @@ sed -i "s/git_repo/$repo_url/" bootstrap-pe.conf
 
 \cp public.xml	/etc/firewalld/zones/public.xml
 
-firewall-cmd --reload
+#firewall-cmd --reload
 
 $(pwd)/${puppet_install}/puppet-enterprise-installer -c $(pwd)/bootstrap-pe.conf
 
