@@ -10,6 +10,8 @@ tar -zxvf ${puppet_install}.tar.gz
 
 sed -i "s/git_repo/$repo_url/" bootstrap-pe.conf
 
+\cp public.xml /etc/firewalld/zones/public.xml
+
 #firewall-cmd --zone=public --add-port=3000/tcp --permanent
 #firewall-cmd --zone=public --add-port=443/tcp --permanent
 #firewall-cmd --zone=public --add-port=4433/tcp --permanent
