@@ -55,12 +55,6 @@ fi
 #Create token for code manager
 curl -k -X POST -H 'Content-Type: application/json' -d '{"login": "deployment-user", "password": "$password", "lifetime": "0"}' https://localhost:4433/rbac-api/v1/auth/token | awk -F \" '{print $4}' > /root/.puppetlabs/token
 
-echo 'pathmunge /opt/puppetlabs/bin' > /etc/profile.d/puppet.sh
-chmod +x /etc/profile.d/puppet.sh
-. /etc/profile
-
-puppet-code deploy production --wait
-
 admin_pass=$(</dev/urandom tr -dc a-z-A-Z-0-9 | head -c 8)
 
 /opt/puppetlabs/puppet/bin/ruby /opt/puppetlabs/server/data/enterprise/modules/pe_install/files/set_console_admin_password.rb $admin_pass
