@@ -3,11 +3,12 @@
 puppet_ver='2016.5.1'
 puppet_install="puppet-enterprise-${puppet_ver}-el-7-x86_64"
 repo_url="github.com\/ascott97\/control_repo.git" #escape / so sed likes it
-
+admin_pass=$(</dev/urandom/ tr -dc a-z-A-Z-0-9 | head -c 8)
 curl -O https://s3.amazonaws.com/pe-builds/released/${puppet_ver}/${puppet_install}.tar.gz
 
 tar -zxvf ${puppet_install}.tar.gz
 
+sed -i "s/root/$admin_pass/" bootstrap-pe.conf
 sed -i "s/git_repo/$repo_url/" bootstrap-pe.conf
 
 #firewall-cmd --zone=public --add-port=3000/tcp --permanent
@@ -71,6 +72,6 @@ Password: $password
 
 Admin Details
 Username: admin
-Password: root
+Password: $admin_pass
 ---------------------------------------------------------"
 
