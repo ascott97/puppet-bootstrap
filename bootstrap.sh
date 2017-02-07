@@ -16,7 +16,7 @@ sed -i '$i\  "puppet_enterprise::profile::master::code_manager_auto_configure": 
 
 sed -i '$i\  "puppet_enterprise::profile::master::r10k_remote": "git_repo"' $(pwd)/${puppet_install}/conf.d/pe.conf
 
-sed -i "s/git_repo/$repo_url/" $(pwd)/${puppet_install}conf.d/pe.conf
+sed -i "s/git_repo/$repo_url/" $(pwd)/${puppet_install}/conf.d/pe.conf
 
 
 
