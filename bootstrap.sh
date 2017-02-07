@@ -2,7 +2,7 @@
 
 puppet_ver='2016.5.1'
 puppet_install="puppet-enterprise-${puppet_ver}-el-7-x86_64"
-repo_url="github.com\/ascott97\/control_repo.git" #escape / so sed likes it
+repo_url="https:\/\/github.com\/ascott97\/control_repo.git" #escape / so sed likes it
 
 curl -O https://s3.amazonaws.com/pe-builds/released/${puppet_ver}/${puppet_install}.tar.gz
 
