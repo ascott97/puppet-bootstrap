@@ -9,7 +9,16 @@ curl -O https://s3.amazonaws.com/pe-builds/released/${puppet_ver}/${puppet_insta
 
 tar -zxvf ${puppet_install}.tar.gz
 
-sed -i "s/git_repo/$repo_url/" bootstrap-pe.conf
+#Populate pe.conf with config
+sed -i 's/"console_admin_password": ""/"console_admin_password": "root"/' $(pwd)/${puppet_install}/conf.d/pe.conf
+
+sed -i '$i\  "puppet_enterprise::profile::master::code_manager_auto_configure": true' $(pwd)/${puppet_install}/conf.d/pe.conf
+
+sed -i '$i\  "puppet_enterprise::profile::master::r10k_remote": "git_repo"' $(pwd)/${puppet_install}/conf.d/pe.conf
+
+sed -i "s/git_repo/$repo_url/" $(pwd)/${puppet_install}conf.d/pe.conf
+
+
 
 #firewall-cmd --zone=public --add-port=3000/tcp --permanent
 #firewall-cmd --zone=public --add-port=443/tcp --permanent
@@ -17,7 +26,7 @@ sed -i "s/git_repo/$repo_url/" bootstrap-pe.conf
 #firewall-cmd --zone=public --add-port=8140/tcp --permanent
 #firewall-cmd --zone=public --add-port=61613/tcp --permanent
 
-$(pwd)/${puppet_install}/puppet-enterprise-installer -c $(pwd)/bootstrap-pe.conf
+$(pwd)/${puppet_install}/puppet-enterprise-installer -c $(pwd)/${puppet_install}/conf.d/pe.conf
 
 #Configure ssh keys
 if [ ! -d /etc/puppetlabs/puppetserver/ssh/ ]; then
